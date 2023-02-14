@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	-
+	{{ event.title | capitalize }}
+{% endblock %}
+
+{% block body %}
+	<div class="col-12 text-center mb-3">
+		<div>
+			<h1>{{ event.title }}</h1>
+		</div>
+
+		<img class="rounded z-depth-2" alt="image de {{ event.title }}" src="{{ asset('uploads/events/' ~ event.picture) }}" data-holder-rendered="true">
+
+	</div>
+	<div class="row text-center">
+
+		<div class="col-12 col-md-6">
+			<p>
+				ID :
+				{{ event.id }}
+			</p>
+			<p>
+				Nombre de participants / nombre de participants max. :
+				{{ event.membersCount }}
+				/
+				{{ event.maxMembers }}
+			</p>
+			<p>
+				Date :
+				{{ event.date | date('d/m/Y') }}
+			</p>
+			<p>
+				Créateur :
+				<a href="{{ path('backoffice_users_read', {id: event.author.id}) }}">{{ event.author.firstname | capitalize }}
+					{{ event.author.lastname | capitalize }}</a>
+			</p>
+			<p>
+				Catégorie :
+				{{ event.category.name | capitalize }}
+			</p>
+		</div>
+		<div class="col-12 col-md-6">
+			{% if event.isOnline %}
+				<p>
+					En ligne
+				</p>
+			{% else %}
+				<p>
+					En présentiel
+				</p>
+				<p>
+					Adresse :
+					{{ event.address }}, {{ event.zipcode }} {{ event.city }}, {{ event.country }}
+				</p>
+			{% endif %}
+
+			<p>
+				Créé le :
+				{{ event.createdAt|date('d/m/Y') }}
+			</p>
+			{% if event.updatedAt %}
+				<p>
+					Dernière mise à jour le :
+					{{ event.updatedAt|date('d/m/Y') }}
+				</p>
+			{% endif %}
+			<p>
+				{% if event.isArchived %}
+					Archivé
+				{% else %}
+					Non archivé
+				{% endif %}
+			</p>
+		</div>
+	</div>
+
+{% endblock %}

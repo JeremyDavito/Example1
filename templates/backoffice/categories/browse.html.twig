@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Catégories
+{% endblock %}
+
+{% block body %}
+    <div class="text-center">
+        <h1>Liste des catégories</h1>
+        <a href="{{ path('backoffice_categories_add') }}" class="btn btn-primary">Ajouter une catégorie</a>
+    </div>
+
+    <div class="container mt-5 mb-3">
+        <div class="row">
+
+            {% for category in categories %}
+
+                <div class="col-sm-6 col-md-4 col-xl-3">
+                    <div class="card p-3 mb-2 bg-light shadow text-primary">
+                        <div>
+                            <h5 class="heading text-center">ID : {{ category.id }}</h5>
+                            <h3 class="heading text-center">{{ category.name | capitalize }}</h3>
+                            <div class="mt-5">
+                                <div class="mt-3 row justify-content-between text-center">
+                                    <div class="col-12">
+                                        <span>{{ category.eventsCount }} évènements appartenant à cette catégorie</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <a class="btn btn-primary"
+                                           href="{{ path('backoffice_categories_read', {id : category.id}) }}"
+                                           data-bs-toggle="tooltip" data-bs-placement="top" title="Voir">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
+                                        <a class="btn btn-warning"
+                                           href="{{ path('backoffice_categories_edit', {id : category.id}) }}"
+                                           data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </a>
+                                        <form action="{{ path('backoffice_categories_delete', {id : category.id}) }}"
+                                              class="d-inline"
+                                              method="post"
+                                              onsubmit="return confirm('Êtes-vous sûre de vouloir supprimer cette catégorie ?')">
+                                            <button type="submit" class="btn btn-danger"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="hidden" name="_token"
+                                                   value="{{ csrf_token('delete_categories_' ~ category.id) }}">
+                                            <input type="hidden" name="_method" value="delete">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="navigation">
+            {{ knp_pagination_render(categories) }}
+        </div>
+    </div>
+{% endblock %}

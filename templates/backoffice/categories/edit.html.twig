@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Modifier une catégorie
+{% endblock %}
+
+{% block body %}
+    <div class="col-12">
+        <h1>Modifier une catégorie</h1>
+    </div>
+
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.pictureFile) }}
+    <button class="btn btn-success">Modifier</button>
+    {{ form_end(form) }}
+{% endblock %}

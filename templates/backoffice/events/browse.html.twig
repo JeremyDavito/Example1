@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Évènements
+{% endblock %}
+
+{% block body %}
+    <div class="text-center">
+        <h1>Liste des évènements</h1>
+    </div>
+
+
+    <div class="container mt-5 mb-3">
+        <div class="row">
+
+            {% for event in events %}
+
+                <div class="col-sm-6 col-md-4 col-xl-3 d-flex align-items-stretch">
+                    <div class="card p-3 mb-2 bg-light shadow text-primary">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-row align-items-center">
+                                <div class="ms-2">
+                                    <h6 class="mb-0">Créé par <strong>{{ event.author.fullName }}</strong>,</h6> <span> le {{ event.createdAt | date('d/m/Y') }}</span>
+                                </div>
+                            </div>
+                            <div><a href="{{ path('backoffice_categories_read', {id: event.category.id}) }}"><span class="badge bg-info">{{ event.category.name }}</span></a></div>
+                        </div>
+                        <div class="mt-5">
+                            <h5 class="heading">ID : {{ event.id  }}</h5>
+                            <h3 class="heading">{{ event.title | length > 20 ? event.title | slice(0, 20) ~ '...' : event.title }}</h3>
+                            <p class="lead">Le {{ event.date | date('d/m/Y') }} à {{ event.date | date('H') }}h{{ event.date | date('i') }}</p>
+                            <div class="mt-5">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                         role="progressbar" aria-valuenow="{{ event.membersCount }}" aria-valuemin="0"
+                                         aria-valuemax="{{ event.maxMembers }}"
+                                         style="width: {{ (event.membersCount / event.maxMembers) * 100 }}%;"></div>
+                                </div>
+                                <div class="mt-3 row justify-content-between text-center">
+                                    <div class="col-12">
+                                        <span>{{ event.membersCount }} participants <span
+                                                    class="text2">sur {{ event.maxMembers }} max.</span></span>
+                                    </div>
+                                    <div class="col-12">
+                                        <a class="btn btn-primary"
+                                           href="{{ path('backoffice_events_read', {id : event.id}) }}"
+                                           data-bs-toggle="tooltip" data-bs-placement="top" title="Voir">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
+                                        <a class="btn btn-warning"
+                                           href="{{ path('backoffice_events_edit', {id : event.id}) }}"
+                                           data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </a>
+                                        <form action="{{ path('backoffice_events_delete', {id : event.id}) }}"
+                                              class="d-inline"
+                                              method="post"
+                                              onsubmit="return confirm('Êtes-vous sûre de vouloir supprimer cet évènement ?')">
+                                            <button type="submit" class="btn btn-danger"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="hidden" name="_token"
+                                                   value="{{ csrf_token('delete_events_' ~ event.id) }}">
+                                            <input type="hidden" name="_method" value="delete">
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="navigation">
+            {{ knp_pagination_render(events) }}
+        </div>
+    </div>
+
+
+
+{% endblock %}

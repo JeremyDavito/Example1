@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Modifier un évènement
+{% endblock %}
+
+{% block body %}
+    <h1>
+        Modifier un évènement : {{ event.title }}
+    </h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.pictureFile) }}
+    {{ form_row(form.date) }}
+    {{ form_row(form.maxMembers) }}
+    {{ form_row(form.isArchived) }}
+    {{ form_row(form.category) }}
+
+    {% if event.isOnline == false %}
+
+        {#   Evènement en Présentiel   #}
+
+        {{ form_row(form.address) }}
+        {{ form_row(form.zipcode) }}
+        {{ form_row(form.city) }}
+        {{ form_row(form.country) }}
+        {{ form_row(form.latitude) }}
+        {{ form_row(form.longitude) }}
+
+    {% endif %}
+    <button type="submit" class="btn btn-primary">Modifier</button>
+    {{ form_end(form) }}
+
+{% endblock %}

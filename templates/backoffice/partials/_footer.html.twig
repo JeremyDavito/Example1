@@ -1,0 +1,22 @@
+<!-- Footer -->
+{# I do this to fix the footer on bottom when we are in the backoffice home page because there is not enough content #}
+<footer class="text-center {{ app.request.get('_route') == 'backoffice_home' or app.request.get('_route') == 'backoffice_categories_browse' ? 'fixed-bottom' : '' }}">
+    <!-- Grid container -->
+    <div class="container p-4">
+
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+        © {{ 'now' | date('Y') }} Copyright :
+        {% set textColor = app.session.get('theme') == 'darkly' or app.session.get('theme') is null ? 'white' : 'black' %}
+        <a class="text-{{ textColor }}" href="https://meet-us.surge.sh">Meet Us</a>
+        <a href="{{ path('backoffice_toggle_theme') }}" class="ms-2 btn btn-primary">
+            {{ textColor == 'white' ? 'Light Mode' : 'Dark Mode' }}
+        </a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+<!-- Footer -->

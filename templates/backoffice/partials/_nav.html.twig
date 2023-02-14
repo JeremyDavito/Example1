@@ -1,0 +1,37 @@
+{% set textColor = app.session.get('theme') == 'darkly' or app.session.get('theme') is null ? 'white' : 'black' %}
+<nav class="navbar navbar-expand-lg navbar-light bg-dark mb-3">
+    <div class="container-fluid">
+        <a class="text-{{ textColor }} navbar-brand" href="{{ path('backoffice_home') }}">Meet Us</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03"
+                aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav me-auto">
+                {% set currentPageSpan = '<span class="visually-hidden">(current)</span>' %}
+                <li class="nav-item">
+                    <a class="text-{{ textColor }} nav-link {{ 'home' in app.request.get('_route') ? 'active' : ''}}" href="{{ path('backoffice_home') }}">Accueil
+                        {{ 'home' in app.request.get('_route') ? currentPageSpan | raw : ''}}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="text-{{ textColor }} nav-link {{ 'categories' in app.request.get('_route') ? 'active' : ''}}" href="{{ path('backoffice_categories_browse') }}">Catégories
+                        {{ 'categories' in app.request.get('_route') ? currentPageSpan | raw : ''}}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="text-{{ textColor }} nav-link {{ 'events' in app.request.get('_route') ? 'active' : ''}}" href="{{ path('backoffice_events_browse') }}">Évènements
+                        {{ 'events' in app.request.get('_route') ? currentPageSpan | raw : ''}}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="text-{{ textColor }} nav-link {{ 'users' in app.request.get('_route') ? 'active' : ''}}" href="{{ path('backoffice_users_browse') }}">Utilisateurs
+                        {{ 'users' in app.request.get('_route') ? currentPageSpan | raw : ''}}
+                    </a>
+                </li>
+            </ul>
+            <a href="{{ path('app_logout') }}" class="btn btn-primary">Se déconnecter</a>
+        </div>
+    </div>
+</nav>

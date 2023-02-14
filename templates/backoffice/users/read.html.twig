@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	-
+	{{ user.firstname | capitalize }}
+	{{ user.lastname | capitalize }}
+{% endblock %}
+
+{% block body %}
+	<div class="col-12 text-center mb-3">
+		<div>
+			<h1>
+				{{ user.firstname | capitalize}}
+				{{ user.lastname | capitalize }}</h1>
+		</div>
+
+		<img class="rounded-circle z-depth-2" alt="avatar de {{ user.fullname }}" src="{{ asset('uploads/users/' ~ user.avatar) }}" data-holder-rendered="true">
+
+	</div>
+	<div class="row text-center">
+
+		<div class="col-12 col-md-6">
+			<p>
+				ID :
+				{{ user.id }}
+			</p>
+			<p>
+				Rôles :
+				{{ user.roles ? user.roles|json_encode : ''}}
+			</p>
+			<p>
+				Nombre d'évènements créés :
+				{{ user.createdEventsCount }}
+			</p>
+			<p>
+				Nombre d'évènements rejoints :
+				{{ user.joinedEventsCount - user.createdEventsCount }}
+			</p>
+			<p>
+				Nombre d'évènements mis en favoris :
+				{{ user.favoriteEventsCount }}
+			</p>
+			<p>
+				{% if is_granted('USER_TOGGLE_ROLE', app.user)%}
+					<a href="{{ path('backoffice_users_toggle_role_moderator', {id : user.id}) }}" class="btn btn-info" onclick="return confirm('Êtes-vous sûre de vouloir passer cet utilisateur en modérateur ?')" data-bs-toggle="tooltip" data-bs-placement="top">
+						{% if is_granted('ROLE_MODERATOR') %}
+							Enlever rôle modérateur
+						{% else %}
+							Donner rôle modérateur
+						{% endif %}
+					</a>
+				{% endif %}
+			</p>
+		</div>
+		<div class="col-12 col-md-6">
+			<p>
+				Email :
+				<a href="mailto:{{ user.email }}">{{ user.email }}</a>
+			</p>
+			{% if user.phoneNumber %}
+				<p>
+					Portable :
+					{{ user.phoneNumber }}
+				</p>
+			{% endif %}
+			<p>
+				Avatar :
+				{{ user.avatar }}
+			</p>
+			{% if user.address %}
+				<p>
+					Adresse de l'utilisateur :
+					{{user.address}},
+					{{user.zipcode}}
+					{{user.city}},
+					{{user.country}}
+				</p>
+			{% endif %}
+			<p>
+				Créé le :
+				{{ user.createdAt|date('d/m/Y') }}
+			</p>
+			{% if user.updatedAt %}
+				<p>
+					Dernière mise à jour le :
+					{{ user.updatedAt|date('d/m/Y') }}
+				</p>
+			{% endif %}
+		</div>
+	</div>
+
+
+{% endblock %}

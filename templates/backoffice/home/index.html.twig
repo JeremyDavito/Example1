@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Accueil
+{% endblock %}
+
+{% block body %}
+    <div class="text-center mt-3">
+        <h1>Bienvenue sur le backoffice de Meet Us</h1>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Voir les statistiques
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="{{ path('backoffice_home') }}?interval=daily">du jour</a></li>
+                <li><a class="dropdown-item" href="{{ path('backoffice_home') }}">de la semaine</a></li>
+                <li><a class="dropdown-item" href="{{ path('backoffice_home') }}?interval=monthly">du mois</a></li>
+            </ul>
+        </div>
+        <p class="text-muted">Sur cette page d'accueil, bientôt, vous trouverez un petit aperçu des derniers évènements
+            créés sur la plateforme.</p>
+    </div>
+
+    {% include 'backoffice/partials/_home_cards.html.twig' %}
+
+{% endblock %}

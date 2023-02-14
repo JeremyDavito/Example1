@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Catégorie {{ category.name | capitalize }}
+{% endblock %}
+
+{% block body %}
+
+    <div>
+        <h1>{{ category.name | capitalize }}</h1>
+    </div>
+    <div>
+        <p>ID : {{ category.id }} </p>
+        <img src="{{ asset('uploads/categories/') }}{{ category.picture }}" alt="...">
+    </div>
+
+    <a class="btn btn-primary" href="{{ path('backoffice_categories_edit', {id: category.id}) }}">Modifier la catégorie</a>
+
+{% endblock %}
